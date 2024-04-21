@@ -99,7 +99,8 @@ export const Replays = new class {
 				});
 			}
 		} catch (e: any) {
-			if (e?.routine !== 'NewUniquenessConstraintViolationError') throw e;
+			console.log(e?.routine);
+			// if (e?.routine !== 'NewUniquenessConstraintViolationError') throw e;
 			await replays.update(replay.id, {
 				log: replayData.log,
 				inputlog: replayData.inputlog,
@@ -161,7 +162,7 @@ export const Replays = new class {
 					return replays.query()`SELECT 
 							p1.uploadtime AS uploadtime, p1.id AS id, p1.format AS format, p1.players AS players, 
 							p1.rating AS rating, p1.password AS password, p1.private AS private 
-						FROM replayplayers p1 INNER JOIN replayplayers p2 ON p2.id = p1.id 
+						FROM ntbb_replayplayers p1 INNER JOIN ntbb_replayplayers p2 ON p2.id = p1.id 
 						WHERE p1.playerid = ${userid} AND p1.formatid = ${format} AND p1.private = ${isPrivate}
 							AND p2.playerid = ${userid2} 
 						${before} ${order} ${paginate};`.then(this.toReplays);
@@ -169,7 +170,7 @@ export const Replays = new class {
 					return replays.query()`SELECT 
 							p1.uploadtime AS uploadtime, p1.id AS id, p1.format AS format, p1.players AS players, 
 							p1.rating AS rating, p1.password AS password, p1.private AS private 
-						FROM replayplayers p1 INNER JOIN replayplayers p2 ON p2.id = p1.id 
+						FROM ntbb_replayplayers p1 INNER JOIN ntbb_replayplayers p2 ON p2.id = p1.id 
 						WHERE p1.playerid = ${userid} AND p1.private = ${isPrivate}
 							AND p2.playerid = ${userid2} 
 						${before} ${order} ${paginate};`.then(this.toReplays);
@@ -177,12 +178,12 @@ export const Replays = new class {
 			} else {
 				if (format) {
 					return replays.query()`SELECT 
-							uploadtime, id, format, players, rating, private, password FROM replayplayers 
+							uploadtime, id, format, players, rating, private, password FROM ntbb_replayplayers 
 						WHERE playerid = ${userid} AND formatid = ${format} AND "private" = ${isPrivate} 
 						${before} ${order} ${paginate};`.then(this.toReplays);
 				} else {
 					return replays.query()`SELECT 
-							uploadtime, id, format, players, rating, private, password FROM replayplayers 
+							uploadtime, id, format, players, rating, private, password FROM ntbb_replayplayers 
 						WHERE playerid = ${userid} AND private = ${isPrivate} 
 						${before} ${order} ${paginate};`.then(this.toReplays);
 				}
@@ -193,12 +194,12 @@ export const Replays = new class {
 
 		if (args.byRating) {
 			return replays.query()`SELECT uploadtime, id, format, players, rating, private, password 
-				FROM replays 
+				FROM ntbb_replays 
 				WHERE private = ${isPrivate} AND formatid = ${format} ${before} ORDER BY rating DESC ${paginate}`
 				.then(this.toReplays);
 		} else {
 			return replays.query()`SELECT uploadtime, id, format, players, rating, private, password 
-				FROM replays 
+				FROM ntbb_replays 
 				WHERE private = ${isPrivate} AND formatid = ${format} ${before} ORDER BY uploadtime DESC ${paginate}`
 				.then(this.toReplays);
 		}
@@ -217,7 +218,7 @@ export const Replays = new class {
 
 		const DAYS = 24 * 60 * 60;
 		return replays.query()`SELECT 
-			uploadtime, id, format, players, rating FROM ps_replays 
+			uploadtime, id, format, players, rating FROM ntbb_replays 
 			WHERE private = 0 AND uploadtime > ${time() - 3 * DAYS} AND log LIKE ${patterns[0]} ${secondPattern}
 			ORDER BY uploadtime DESC LIMIT 50;`.then(this.toReplays);
 	}

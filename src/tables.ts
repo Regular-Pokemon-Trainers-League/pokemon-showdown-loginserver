@@ -10,7 +10,7 @@ import type {ReplayRow} from './replays';
 // direct access
 export const psdb = new MySQLDatabase(Config.mysql);
 export const pgdb = new PGDatabase(Config.postgres!);
-export const replaysDB = Config.replaysdb ? new PGDatabase(Config.replaysdb) : pgdb;
+export const replaysDB = Config.replaysdb ? new MySQLDatabase(Config.replaysdb) : psdb;
 export const ladderDB = Config.ladderdb ? new MySQLDatabase(Config.ladderdb!) : psdb;
 
 export const users = psdb.getTable<{

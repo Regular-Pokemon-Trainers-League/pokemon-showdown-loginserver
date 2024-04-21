@@ -68,7 +68,7 @@ export const actions: {[k: string]: QueryHandler} = {
 		if (password !== cpassword) {
 			throw new ActionError(`Your passwords do not match.`);
 		}
-		if (toID(captcha) !== 'pikachu') {
+		if (toID(captcha) !== 'sasha') {
 			throw new ActionError(`Answer the anti-spam question.`);
 		}
 		const regcount = await this.session.getRecentRegistrationCount(2 * 60 * 60);
@@ -177,21 +177,25 @@ export const actions: {[k: string]: QueryHandler} = {
 		//   id, format, log, players
 		// optional params:
 		//   inputlog, hidden, password
-
-		const server = await this.getServer(true);
+		console.log("DXB: WE GONNA SAVE A REPLAY NEw");
+		const server = await this.getServer(false);
 		if (!server) {
 			// legacy error
+			console.log("DXB: WE GONNA SAVE A REPLAY ERROR");
 			return {errorip: this.getIp()};
 		}
 
+		console.log("DXB: WE GONNA SAVE A REPLAY 5");
 		// the server must send all the required values
 		if (!params.id || !params.format || !params.log || !params.players) {
 			throw new ActionError("Required params: id, format, log, players", 400);
 		}
+		console.log("DXB: WE GONNA SAVE A REPLAY 4");
 		// player usernames cannot be longer than 18 characters
 		if (params.players.split(',').some(p => p.length > 18)) {
 			throw new ActionError("Player names must be 18 chars or shorter", 400);
 		}
+		console.log("DXB: WE GONNA SAVE A REPLAY 3");
 		// the battle ID must be valid
 		// the format from the battle ID must match the format ID
 		const extractedFormatId = /^([a-z0-9]+)-[0-9]+$/.exec(`${params.id}`)?.[1];
@@ -208,6 +212,7 @@ export const actions: {[k: string]: QueryHandler} = {
 		let isPrivate: 0 | 1 | 2 = params.hidden ? 1 : 0;
 		if (params.hidden === '2') isPrivate = 2;
 		const players = params.players.split(',').map(p => Session.wordfilter(p));
+		console.log("DXB: WE GONNA SAVE A REPLAY2");
 		const out = await Replays.add({
 			id,
 			log: params.log,

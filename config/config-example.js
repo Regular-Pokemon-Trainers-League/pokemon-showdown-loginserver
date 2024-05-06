@@ -2,7 +2,7 @@
 exports.mysql = {
 	charset: "utf8mb4",
 	database: "ps",
-	password: "3edcvbgt5ZZPP@$",
+	password: "",
 	host: 'localhost',
 	user: "server",
 	socketPath: '',
@@ -14,7 +14,7 @@ exports.mysql = {
 exports.replaysdb = {
 	charset: "utf8mb4",
 	database: "ps",
-	password: "3edcvbgt5ZZPP@$",
+	password: "",
 	host: 'localhost',
 	user: "server",
 	socketPath: '',
@@ -29,7 +29,7 @@ exports.replaysdb = {
  */
 exports.postgres = {
 	database: "ps",
-	password: "3edcvbgt5ZZPP@$",
+	password: "",
 	host: 'localhost',
 	user: "postgres",
 	port: 5432,

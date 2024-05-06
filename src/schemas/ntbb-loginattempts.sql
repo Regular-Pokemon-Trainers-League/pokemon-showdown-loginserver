@@ -1,5 +1,5 @@
 CREATE TABLE `ntbb_loginattempts` (
-  `count` int(11) NOT NULL,
+  `count` int(11) NOT NULL DEFAULT 0,
   `userid` varchar(63) COLLATE utf8mb4_bin NOT NULL,
   `time` int(11) NOT NULL,
   PRIMARY KEY (`userid`),

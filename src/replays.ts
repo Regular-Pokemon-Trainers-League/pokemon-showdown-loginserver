@@ -77,14 +77,31 @@ export const Replays = new class {
 		return replayData;
 	}
 
+	// This will change Unicode cursive letters to unicodes
+	// encodeMathAlphaSym(text: string) {
+	// 	const regexMathAlphaSymbol = /[\u{1D400}-\u{1D7FF}]+/gu;
+	// 	let matches = [...new Set(text.match(regexMathAlphaSymbol))]; //Make it unique values
+	// 	let newtext = text;
+	// 	if(matches) {
+	// 		for (let index = 0; index < matches.length; index++) {
+	// 			let nameEncode = '<NAMEENCODE>' + toUnicode(matches[index]) + '</NAMEENCODE>';
+
+	// 			newtext = newtext.replaceAll(matches[index], nameEncode);
+	// 		}
+	// 	}
+	// 	return newtext;
+	// }
+
 	async add(replay: Replay) {
 		const fullid = replay.id + (replay.password ? `-${replay.password}pw` : '');
 
 		// obviously upsert exists but this is the easiest way when multiple things need to be changed
 		const replayData = this.toReplayRow(replay);
 		replayData.uploadtime ||= time();
+		console.log("ADDING REPLAY");
 		try {
 			await replays.insert(replayData);
+			console.log("No Errors Yet");
 			for (const playerName of replay.players) {
 				await replayPlayers.insert({
 					playerid: toID(playerName),
@@ -100,6 +117,7 @@ export const Replays = new class {
 			}
 		} catch (e: any) {
 			console.log(e?.routine);
+			console.log(replayData);
 			// if (e?.routine !== 'NewUniquenessConstraintViolationError') throw e;
 			await replays.update(replay.id, {
 				log: replayData.log,
@@ -114,6 +132,7 @@ export const Replays = new class {
 				password: replayData.password,
 			})`WHERE id = ${replay.id}`;
 		}
+		console.log("FULLID: " + fullid);
 		return fullid;
 	}
 

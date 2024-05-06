@@ -1,6 +1,6 @@
 // MySQL DB settings.
 exports.mysql = {
-	charset: "utf8",
+	charset: "utf8mb4",
 	database: "ps",
 	password: "3edcvbgt5ZZPP@$",
 	host: 'localhost',
@@ -12,7 +12,7 @@ exports.mysql = {
 
 // MySQL DB settings.
 exports.replaysdb = {
-	charset: "utf8",
+	charset: "utf8mb4",
 	database: "ps",
 	password: "3edcvbgt5ZZPP@$",
 	host: 'localhost',

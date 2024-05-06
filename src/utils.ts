@@ -104,3 +104,31 @@ export function escapeHTML(str: string | number) {
 		.replace(/"/g, '&quot;')
 		.replace(/'/g, '&apos;');
 }
+
+// export function toUnicode(text: string){
+// 	var result = "";
+// 	for(var i = 0; i < text.length; i++){
+// 		// Assumption: all characters are < 0xffff
+// 		result += "\\u" + ("000" + text[i].charCodeAt(0).toString(16)).substr(-4);
+// 	}
+// 	return result;
+// };
+
+// export function decodeUnicode(text: string) {
+// 	const regex = /(?<=<NAMEENCODE>\s*)(.*?)(?=\s*\<\/NAMEENCODE>)/gm;
+// 	let decoded = text;
+// 	try {
+// 		let encoded = [...new Set(decoded.match(regex))];
+
+// 		for(let i = 0; i < encoded.length; i++ ) {
+// 			let jsoned = JSON.stringify(encoded[i]);
+// 			jsoned = jsoned.replace(/\\\\/g, '\\');
+// 			jsoned = JSON.parse(jsoned);
+// 			decoded = decoded.replaceAll('<NAMEENCODE>' + encoded[i] + '</NAMEENCODE>', jsoned);
+// 		}
+// 		return decoded;
+// 	} catch (error) {
+// 		console.error(error);
+// 	}
+// 	return text;
+// }
